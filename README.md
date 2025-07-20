@@ -1,7 +1,7 @@
 # Urn CLI
 A CLI for managing [urn-gtk](https://github.com/paoloose/urn) settings in a userfriendly way.
 
-![](readme-assets/menu-screenshot.md)
+![](readme-assets/menu-screenshot.png)
 
 ---
 
