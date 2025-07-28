@@ -366,50 +366,55 @@ function pad_string
     echo "$argv[1]"(string repeat -n $spaces " ")
 end
 
-# ________ Start Script ________
-switch $argv[1]
-    case ""
-        main_menu
-    case "-i" "--install"
-        set_color brred
-        echo "   **WARNING**    "
-        set_color normal
+# start function
+function urn-cli
+    switch $argv[1]
+        case ""
+            main_menu
+        case "-i" "--install"
+            set_color brred
+            echo "   **WARNING**    "
+            set_color normal
 
-        read -P "Sudo Access is Rquired to install a theme. Continue? [Y/n]" -n1 sudoconfirm
-            switch $sudoconfirm
-                case "y" "Y" ""
-                case "n" "N"
-                    echo "  Exiting..."
-                    exit
-                case "*"
+            read -P "Sudo Access is Rquired to install a theme. Continue? [Y/n]" -n1 sudoconfirm
+                switch $sudoconfirm
+                    case "y" "Y" ""
+                    case "n" "N"
+                        echo "  Exiting..."
+                        exit
+                    case "*"
+                        set_color brred
+                        echo "  **ERROR** "
+                        set_color normal
+                        echo "  Not a valid setting. Exiting..."
+                        exit
+                end
+
+                if test -d $argv[2]
+                    set_color brgreen
+                    echo "  **VALID** "
+                    set_color normal
+                else
                     set_color brred
                     echo "  **ERROR** "
                     set_color normal
-                    echo "  Not a valid setting. Exiting..."
+                    echo "  Not a directory"
                     exit
-            end
+                end
 
-            if test -d $argv[2]
-                set_color brgreen
-                echo "  **VALID** "
-                set_color normal
-            else
                 set_color brred
-                echo "  **ERROR** "
+                sudo cp $argv[2] $theme_dir
                 set_color normal
-                echo "  Not a directory"
+                echo "  Done."
                 exit
-            end
 
+        case "*"
             set_color brred
-            sudo cp $argv[2] $theme_dir
+            echo "  **ERROR**"
             set_color normal
-            echo "  Done."
-            exit
-
-    case "*"
-        set_color brred
-        echo "  **ERROR**"
-        set_color normal
-        echo "  Invalid Argument"
+            echo "  Invalid Argument"
+    end
 end
+
+# ________ Start Script ________
+urn-cli
