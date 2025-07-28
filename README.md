@@ -31,4 +31,4 @@ cd urn-cli
 ```
 
 - #### 3. Note
-- You may need to relaunch your terminal after installing.
+  - You may need to relaunch your terminal after installing.
