@@ -367,29 +367,29 @@ function pad_string
 end
 
 # start function
-function urn-cli
-    switch $argv[1]
-        case ""
-            main_menu
-        case "-i" "--install"
-            set_color brred
-            echo "   **WARNING**    "
-            set_color normal
+switch $argv[1]
+    case ""
+        main_menu
+    case "-i" "--install"
+        set_color brred
+        echo "   **WARNING**    "
+        set_color normal
 
-            read -P "Sudo Access is Rquired to install a theme. Continue? [Y/n]" -n1 sudoconfirm
-                switch $sudoconfirm
-                    case "y" "Y" ""
-                    case "n" "N"
-                        echo "  Exiting..."
-                        exit
-                    case "*"
-                        set_color brred
-                        echo "  **ERROR** "
-                        set_color normal
-                        echo "  Not a valid setting. Exiting..."
-                        exit
-                end
+        read -P "Sudo Access is Rquired to install a theme. Continue? [Y/n]" -n1 sudoconfirm
+            switch $sudoconfirm
+                case "y" "Y" ""
+                case "n" "N"
+                    echo "  Exiting..."
+                    exit 0
+                case "*"
+                    set_color brred
+                    echo "  **ERROR** "
+                    set_color normal
+                    echo "  Not a valid setting. Exiting..."
+                    exit 1
+            end
 
+            if test "$argv[2]" != ""
                 if test -d $argv[2]
                     set_color brgreen
                     echo "  **VALID** "
@@ -399,22 +399,25 @@ function urn-cli
                     echo "  **ERROR** "
                     set_color normal
                     echo "  Not a directory"
-                    exit
+                    exit 1
                 end
-
+            else
                 set_color brred
-                sudo cp $argv[2] $theme_dir
+                echo "  **ERROR** "
                 set_color normal
-                echo "  Done."
-                exit
+                echo "  No Path Specified"
+                exit 1
+            end
 
-        case "*"
             set_color brred
-            echo "  **ERROR**"
+            sudo cp -r $argv[2] $theme_dir
             set_color normal
-            echo "  Invalid Argument"
-    end
-end
+            echo "  Done."
+            exit
 
-# ________ Start Script ________
-urn-cli
+    case "*"
+        set_color brred
+        echo "  **ERROR**"
+        set_color normal
+        echo "  Invalid Argument"
+end
