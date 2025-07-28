@@ -20,5 +20,15 @@ A CLI for managing [urn-gtk](https://github.com/paoloose/urn) settings in a user
 ---
 
 ## Installation
-Currently you need to install it manualy. <br>
-Install Scripts and further coming in the future.
+- #### 1. Clone Repository
+```
+git clone https://github.com/nukusaba/urn-cli.git
+cd urn-cli
+```
+- #### 2. Install
+```
+./install.fish
+```
+
+- #### 3. Note
+- You may need to relaunch your terminal after installing.
