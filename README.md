@@ -10,6 +10,13 @@ A CLI for managing [urn-gtk](https://github.com/paoloose/urn) settings in a user
 - gsettings
 - urn-gtk
 
+# Features
+- Toggling: **Global Hotkeys, Hide Cursor, Window Decoration on Start, Force Always On Top By Default**.
+- Setting keybinds without manual typing.
+- Selecting a installed Theme.
+- Deleting a installed Theme.
+- Installing a new theme using `-i` argument.
+
 ---
 
 ## Installation
