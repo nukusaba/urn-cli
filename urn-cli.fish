@@ -94,12 +94,13 @@ function main_menu
     │                                        │
     │  5. Keybinds                           │
     │  6. Theme "(set_color brgreen)"$theme_setting"(set_color normal)"  │
+    │  "(set_color brred)"7. Delete Theme"(set_color normal)"                       │
     │                                        │
-    │  NOTE: You can install a new theme     │
-    │        with 'urn-cli -i [path]'        │
+    │  "(set_color brblack)"NOTE:"(set_color normal)" You can install a new theme     │
+    │        with "(set_color brred)"'urn-cli -i [path]'"(set_color normal)"        │
+    │     "(set_color brred)"Red"(set_color normal)" text means requires sudo       │
     │                                        │
-    │                                        │
-    │"(set_color brred)"  Q. Quit "(set_color normal)"                              │
+    │"(set_color brblue)"  Q. Quit "(set_color normal)"                              │
     └────────────────────────────────────────┘"
     read -P "    Select option: " -n1 selected_option
     switch $selected_option
@@ -117,6 +118,7 @@ function main_menu
             menu_setting_manager
         case "Q" "q"
             echo "    Quiting..."
+            echo ""
             exit
 
         # non-direct settings options
@@ -124,6 +126,8 @@ function main_menu
             keybind_menu
         case "6"
             theme_menu
+        case "7"
+            theme_rm_menu
     end
 end
 
@@ -318,6 +322,40 @@ function theme_menu
             main_menu
         case "*"
             eval $gset_set theme \$theme_setting_name$selected_theme
+            main_menu
+    end
+end
+
+#theme delete menu
+function theme_rm_menu
+    set -g theme_list (ls $theme_dir)
+    set -g list_count (count $theme_list)
+
+
+    clear
+    echo "
+    ┌─── urn-cli - Select Theme to Delete ───┐
+    │                                        │"
+    for i in (seq $list_count)
+        set -g theme_number (printf "%02d" $i)
+        set -g pad_length 31
+        set -g theme_string (pad_string $theme_list[$i])
+        echo "    │  "(set_color brred)"$theme_number. $theme_string"(set_color normal)"   │"
+        set -g theme_setting_name$i $theme_list[$i]
+    end
+    echo "    │                                        │
+    │"(set_color brblue)"  B. Back "(set_color normal)"                              │
+    └────────────────────────────────────────┘"
+    read -P "     Select Theme: " selected_theme
+    switch $selected_theme
+        case "b" "B" "q" "Q"
+            set_color normal
+            main_menu
+        case "*"
+            sudo -k
+            set_color brred
+            eval "sudo rm -r \$theme_dir\$theme_setting_name$selected_theme"
+            set_color normal
             main_menu
     end
 end
